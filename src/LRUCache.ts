@@ -5,7 +5,15 @@ export interface ICache{
 
 export default class LRUCache{
     private caches: ICache[] = [];
+    private maxSize: number;
     
+    /**
+     * 
+     * @param {number} maxSize 
+     */
+    constructor(maxSize: number){
+        this.maxSize = maxSize
+    }
     /**
      * 要素を追加する
      * @param {string} name 
@@ -13,6 +21,10 @@ export default class LRUCache{
      */
     public put(name: string, val: any){
         const cache = {name: name, val: val};
+        if(this.caches.length == this.maxSize){
+            // 最大サイズのとき、先頭を削除する
+            this.caches.splice(0, 1);
+        }
         // 要素を追加
         this.caches.push(cache);
     }
