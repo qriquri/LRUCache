@@ -5,7 +5,7 @@ export interface ICache{
 
 export default class LRUCache{
     private caches: ICache[] = [];
-    private maxSize: number;
+    private maxSize: number; // キャッシュの最大サイズ
     
     /**
      * 
@@ -39,6 +39,10 @@ export default class LRUCache{
         for (let i = 0; i < this.caches.length; i++){
             if(this.caches[i].name == name){
                 val = this.caches[i].val;
+                // 取得された要素を配列の一番後ろに移動する
+                const tmp = this.caches[i];
+                this.caches.splice(i, 1);
+                this.caches.push(tmp);
                 return val;
             }
         }
